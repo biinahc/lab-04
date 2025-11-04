@@ -2,7 +2,6 @@
 # Projeto: Mini To-Do List
 # Objetivo: completar as funções para que o sistema funcione corretamente
 # Dica: use apenas listas, loops e condicionais!
-
 # Lista principal de tarefas
 tarefas = []
 

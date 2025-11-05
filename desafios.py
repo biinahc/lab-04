@@ -8,61 +8,63 @@ tarefas = []
 
 # Desafio 01: Adicionar uma nova tarefa
 def adicionar_tarefa(titulo):
-    """
-    Adiciona uma nova tarefa à lista.
-    Dica: use append() para inserir o título na lista 'tarefas'.
-    """
-    # TODO: implemente aqui lógica de adicionar tarefa
-    pass
+    tarefas.append(titulo)
+    print(f"Tarefa {titulo} adicionada com sucesso :D")
 
 
 # Desafio 02: Listar todas as tarefas
 def listar_tarefas():
-    """
-    Exibe todas as tarefas da lista numeradas.
-    Dica: use um for com enumerate() para mostrar o índice e o nome.
-    """
-    # TODO: implementar lógica de listagem
-    pass
+    if not tarefas:
+        print("A lista de tarefas está vazia.")
+        return
 
+    print("\n--- LISTA DE TAREFAS ---")
+    for indice, tarefa in enumerate(tarefas):
+        print(f"{indice + 1} - {tarefa}")
+    print("------------------------")
 
 # Desafio 03: Marcar uma tarefa como concluída
 def concluir_tarefa(indice):
-    """
-    Marca uma tarefa como concluída.
-    Dica: você pode alterar o texto da tarefa adicionando um 'ok' no início.
-    Exemplo: 'Estudar Git' → 'Estudar Git - ok'
-    """
-    # TODO: implementar lógica de conclusão de tarefa
-    pass
+    indice_ajustado = indice - 1
+
+    if 0 <= indice_ajustado < len(tarefas):
+        tarefa_original = tarefas[indice_ajustado]
+        if " - ok" not in tarefa_original:
+            tarefas[indice_ajustado] = tarefa_original + " - ok"
+            print(f"Tarefa {indice}: '{tarefa_original}' marcada como concluída.")
+        else:
+            print(f"Tarefa {indice} já está concluída.")
+    else:
+        print("Índice de tarefa inválido.")
 
 
 # Desafio 04: Remover uma tarefa
 def remover_tarefa(indice):
-    """
-    Remove uma tarefa pelo índice.
-    Dica: use pop() para remover da lista.
-    """
-    # TODO: implementar lógica de remoção
-    pass
+    indice_ajustado = indice - 1
 
+    if 0 <= indice_ajustado < len(tarefas):
+        tarefa_removida = tarefas.pop(indice_ajustado)
+        print(f"Tarefa {indice}: '{tarefa_removida}' removida com sucesso.")
+    else:
+        print("Índice de tarefa inválido.")
 
 # Desafio 05: Buscar tarefa pelo nome
 def buscar_tarefa(nome):
-    """
-    Busca uma tarefa pelo nome e retorna se ela existe ou não.
-    Dica: use um loop para percorrer a lista e comparar strings.
-    """
-    # TODO: implementar lógica de busca
-    pass
+    encontrada = False
+    
+    for indice, tarefa in enumerate(tarefas):
+        if nome.lower() in tarefa.lower():
+            print(f"Tarefa encontrada no índice {indice + 1}: {tarefa}")
+            encontrada = True
+    
+    if not encontrada:
+        print(f"Nenhuma tarefa encontrada contendo '{nome}'.")
+    return encontrada 
+
 
 
 # Desafio 06: Menu interativo (opcional)
 def menu():
-    """
-    Exibe um menu simples para testar o programa.
-    Dica: use um while True e input() para ler opções do usuário.
-    """
     while True:
         print("\n--- MENU TO-DO ---")
         print("1 - Adicionar tarefa")
@@ -74,31 +76,36 @@ def menu():
 
         opcao = input("Escolha: ")
 
-        if opcao == "1":
-            titulo = input("Título da tarefa: ")
-            adicionar_tarefa(titulo)
-        elif opcao == "2":
-            listar_tarefas()
-        elif opcao == "3":
-            indice = int(input("Número da tarefa: "))
-            concluir_tarefa(indice)
-        elif opcao == "4":
-            indice = int(input("Número da tarefa: "))
-            remover_tarefa(indice)
-        elif opcao == "5":
-            nome = input("Nome da tarefa: ")
-            buscar_tarefa(nome)
-        elif opcao == "0":
-            print("Encerrando o programa...")
-            break
-        else:
-            print("Opção inválida! Tente novamente.")
+        try:
+            if opcao == "1":
+                titulo = input("Título da tarefa: ")
+                if titulo.strip():
+                    adicionar_tarefa(titulo.strip())
+                else:
+                    print("O título da tarefa não pode ser vazio.")
+            elif opcao == "2":
+                listar_tarefas()
+            elif opcao == "3":
+                listar_tarefas()
+                if tarefas:
+                    indice = int(input("Número da tarefa a concluir: "))
+                    concluir_tarefa(indice)
+            elif opcao == "4":
+                listar_tarefas()
+                if tarefas:
+                    indice = int(input("Número da tarefa a remover: "))
+                    remover_tarefa(indice)
+            elif opcao == "5":
+                nome = input("Nome ou parte do nome da tarefa para buscar: ")
+                buscar_tarefa(nome.strip())
+            elif opcao == "0":
+                print("Encerrando o programa...")
+                break
+            else:
+                print("Opção inválida! Tente novamente.")
+        except ValueError:
+             print("Entrada inválida. Por favor, digite um número para o índice.")
+        except Exception as e:
+             print(f"Ocorreu um erro: {e}")
 
-
-# Dica Final:
-# Quando terminar todos os desafios:
-# 1️ Teste todas as funções usando o menu()
-# 2️ Faça commit das alterações, para cada commit crie uma tag.
-# 3️ Crie a tag final: tag: desafios-completos-v1.0
-
-# menu()  # Descomente para testar
+menu()
